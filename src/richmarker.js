@@ -729,13 +729,13 @@ RichMarker.prototype.onAdd = function() {
 
     var that = this;
     google.maps.event.addDomListener(this.markerContent_, 'click', function(e) {
-      google.maps.event.trigger(that, 'click');
+      google.maps.event.trigger(that, 'click', e);
     });
     google.maps.event.addDomListener(this.markerContent_, 'mouseover', function(e) {
-      google.maps.event.trigger(that, 'mouseover');
+      google.maps.event.trigger(that, 'mouseover', e);
     });
     google.maps.event.addDomListener(this.markerContent_, 'mouseout', function(e) {
-      google.maps.event.trigger(that, 'mouseout');
+      google.maps.event.trigger(that, 'mouseout', e);
     });
   }
 
