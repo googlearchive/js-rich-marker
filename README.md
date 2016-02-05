@@ -2,7 +2,7 @@ RichMarker – A Google Maps JavaScript API utility library
 ==============
 
 A library for using arbitrary DOM elements as map markers in the Google Maps JavaScript API v3.
-![Analytics](https://ga-beacon.appspot.com/UA-12846745-20/js-rich-marker/readme?pixel)
+![Analytics](https://maps-ga-beacon.appspot.com/UA-12846745-20/js-rich-marker/readme?pixel)
 
 [Reference documentation](https://googlemaps.github.io/js-rich-marker/reference.html)
 
