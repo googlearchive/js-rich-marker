@@ -526,7 +526,7 @@ RichMarker.prototype.stopDrag = function() {
     this.removeDraggingListeners_();
 
     this.setCursor_('draggable');
-    google.maps.event.trigger(this, 'dragend');
+    google.maps.event.trigger(this, 'dragend', this);
 
     this.draw();
   }
