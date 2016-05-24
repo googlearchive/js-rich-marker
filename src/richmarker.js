@@ -612,7 +612,7 @@ RichMarker.prototype.addDragging_ = function(node) {
 RichMarker.prototype.addDraggingListeners_ = function() {
   var that = this;
   if (this.markerWrapper_.setCapture) {
-    this.markerWrapper_.setCapture(true);
+    this.markerWrapper_.setCapture();
     this.draggingListeners_ = [
       google.maps.event.addDomListener(this.markerWrapper_, 'mousemove', function(e) {
         that.drag(e);
