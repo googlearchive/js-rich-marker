@@ -1,0 +1,31 @@
+{
+  "name": "js-rich-marker",
+  "version": "1.0.0",
+  "description": "A library for using arbitrary DOM elements as map markers in the Google Maps JavaScript API v3.",
+  "main": "src/richmarker.js",
+  "directories": {
+    "example": "examples"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/googlemaps/js-rich-marker.git"
+  },
+  "keywords": [
+    "google",
+    "marker",
+    "rich",
+    "javascript",
+    "js",
+    "api",
+    "v3"
+  ],
+  "author": "Brendan Kenny",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/googlemaps/js-rich-marker/issues"
+  },
+  "homepage": "https://github.com/googlemaps/js-rich-marker#readme"
+}
