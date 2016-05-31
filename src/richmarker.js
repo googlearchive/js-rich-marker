@@ -314,6 +314,37 @@ RichMarker.prototype['anchor_changed'] = RichMarker.prototype.anchor_changed;
 
 
 /**
+ * Gets the anchor offset.
+ *
+ * @return {google.maps.Point} The offset of the anchor relative the position.
+ */
+RichMarker.prototype.getAnchorOffset = function() {
+  return /** @type {google.maps.Point} */ (this.get('anchorOffset'));
+};
+RichMarker.prototype['getAnchorOffset'] = RichMarker.prototype.getAnchorOffset;
+
+
+/**
+ * Sets the anchor offset.
+ *
+ * @param {google.maps.Point} offset The anchor offset to set.
+ */
+RichMarker.prototype.setAnchorOffset = function(anchorOffset) {
+  this.set('anchorOffset', anchorOffset);
+};
+RichMarker.prototype['setAnchorOffset'] = RichMarker.prototype.setAnchorOffset;
+
+
+/**
+ * Offset changed event.
+ */
+RichMarker.prototype.anchorOffset_changed = function() {
+  this.draw();
+};
+RichMarker.prototype['anchorOffset_changed'] = RichMarker.prototype.anchorOffset_changed;
+
+
+/**
  * Converts a HTML string to a document fragment.
  *
  * @param {string} htmlString The HTML string to convert.
@@ -740,6 +771,12 @@ RichMarker.prototype.getOffset_ = function() {
      break;
   }
 
+  var anchorOffset = this.getAnchorOffset();
+  if( anchorOffset ) {
+    offset.width += anchorOffset.x;
+    offset.height += anchorOffset.y;
+  }
+    
   return offset;
 };
 

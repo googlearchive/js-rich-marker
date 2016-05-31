@@ -130,6 +130,11 @@
               <td>Anchor changed event.</td>
             </tr>
             <tr>
+              <td><code>anchorOffset_changed()</code></td>
+              <td><code>None</code></td>
+              <td>AnchorOffset changed event.</td>
+            </tr>
+            <tr>
               <td><code>content_changed()</code></td>
               <td><code>None</code></td>
               <td>Sets the marker content and adds loading events to images.</td>
@@ -158,6 +163,11 @@
               <td><code>getAnchor()</code></td>
               <td><code>google.maps.Size</code></td>
               <td>Gets the anchor.</td>
+            </tr>
+            <tr>
+              <td><code>getAnchorOffset()</code></td>
+              <td><code>google.maps.Point</code></td>
+              <td>Gets the anchor offset.</td>
             </tr>
             <tr>
               <td><code>getContent()</code></td>
@@ -222,7 +232,12 @@
             <tr>
               <td><code>setAnchor(<span class="type">anchor:RichMarkerPosition|google.maps.Size</span>)</code></td>
               <td><code>None</code></td>
-              <td>Position changed event.</td>
+              <td>.</td>
+            </tr>
+            <tr>
+              <td><code>setAnchorOffset(<span class="type">google.maps.Point</span>)</code></td>
+              <td><code>None</code></td>
+              <td>.</td>
             </tr>
             <tr>
               <td><code>setContent(<span class="type">content:string|Node</span>)</code></td>
@@ -298,6 +313,11 @@
               <td>This event is fired when the anchor property changes.</td>
             </tr>
             <tr>
+              <td><code>anchorOffset_changed</code></td>
+              <td><code>None</code></td>
+              <td>This event is fired when the anchorOffset property changes.</td>
+            </tr>
+            <tr>
               <td><code>click</code></td>
               <td><code>Event</code></td>
               <td>This event is fired when the marker was clicked.</td>
@@ -321,6 +341,11 @@
               <td><code>height_changed</code></td>
               <td><code>None</code></td>
               <td>This event is fired when the height property changes.</td>
+            </tr>
+            <tr>
+              <td><code>offset_changed</code></td>
+              <td><code>None</code></td>
+              <td>This event is fired when the offset property changes.</td>
             </tr>
             <tr>
               <td><code>position_changed</code></td>
