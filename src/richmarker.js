@@ -1,6 +1,6 @@
 // ==ClosureCompiler==
 // @compilation_level ADVANCED_OPTIMIZATIONS
-// @externs_url http://closure-compiler.googlecode.com/svn/trunk/contrib/externs/maps/google_maps_api_v3.js
+// @externs_url https://raw.githubusercontent.com/google/closure-compiler/master/contrib/externs/maps/google_maps_api_v3.js
 // @output_wrapper (function() {%output%})();
 // ==/ClosureCompiler==
 
@@ -238,9 +238,11 @@ RichMarker.prototype['setDraggable'] = RichMarker.prototype.setDraggable;
 RichMarker.prototype.draggable_changed = function() {
   if (this.ready_) {
     if (this.getDraggable()) {
+      this.removeNondraggingListeners_();
       this.addDragging_(this.markerWrapper_);
     } else {
       this.removeDragListeners_();
+      this.addNondraggingListeners_();
     }
   }
 };
@@ -309,6 +311,37 @@ RichMarker.prototype.anchor_changed = function() {
   this.draw();
 };
 RichMarker.prototype['anchor_changed'] = RichMarker.prototype.anchor_changed;
+
+
+/**
+ * Gets the anchor offset.
+ *
+ * @return {google.maps.Point} The offset of the anchor relative the position.
+ */
+RichMarker.prototype.getAnchorOffset = function() {
+  return /** @type {google.maps.Point} */ (this.get('anchorOffset'));
+};
+RichMarker.prototype['getAnchorOffset'] = RichMarker.prototype.getAnchorOffset;
+
+
+/**
+ * Sets the anchor offset.
+ *
+ * @param {google.maps.Point} offset The anchor offset to set.
+ */
+RichMarker.prototype.setAnchorOffset = function(anchorOffset) {
+  this.set('anchorOffset', anchorOffset);
+};
+RichMarker.prototype['setAnchorOffset'] = RichMarker.prototype.setAnchorOffset;
+
+
+/**
+ * Offset changed event.
+ */
+RichMarker.prototype.anchorOffset_changed = function() {
+  this.draw();
+};
+RichMarker.prototype['anchorOffset_changed'] = RichMarker.prototype.anchorOffset_changed;
 
 
 /**
@@ -582,6 +615,19 @@ RichMarker.prototype.removeDragListeners_ = function() {
   this.setCursor_('');
 };
 
+/**
+ * Removes nondragging listeners associated with the marker.
+ *
+ * @private
+ */
+RichMarker.prototype.removeNondraggingListeners_ = function() {
+  if (this.nondraggingListeners_) {
+    for (var i = 0, listener; listener = this.nondraggingListeners_[i]; i++) {
+      google.maps.event.removeListener(listener);
+    }
+    this.nondraggingListeners_.length = 0;
+  }
+};
 
 /**
  * Add dragability events to the marker.
@@ -597,6 +643,8 @@ RichMarker.prototype.addDragging_ = function(node) {
   var that = this;
   this.draggableListener_ =
     google.maps.event.addDomListener(node, 'mousedown', function(e) {
+      that.mousedownX_ = e.clientX;
+      that.mousedownY_ = e.clientY;
       that.startDrag(e);
     });
 
@@ -612,7 +660,7 @@ RichMarker.prototype.addDragging_ = function(node) {
 RichMarker.prototype.addDraggingListeners_ = function() {
   var that = this;
   if (this.markerWrapper_.setCapture) {
-    this.markerWrapper_.setCapture(true);
+    this.markerWrapper_.setCapture();
     this.draggingListeners_ = [
       google.maps.event.addDomListener(this.markerWrapper_, 'mousemove', function(e) {
         that.drag(e);
@@ -632,6 +680,26 @@ RichMarker.prototype.addDraggingListeners_ = function() {
       }, true)
     ];
   }
+};
+
+
+/**
+ * Add nondragging listeners.
+ *
+ * @private
+ */
+RichMarker.prototype.addNondraggingListeners_ = function() {
+  var that = this;
+  this.nondraggingListeners_ = [
+    google.maps.event.addDomListener(this.markerWrapper_, 'mouseup', function(e) {
+      google.maps.event.trigger(that, 'mouseup', e);
+    }),
+    google.maps.event.addDomListener(this.markerWrapper_, 'mousedown', function(e) {
+      that.mousedownX_ = e.clientX;
+      that.mousedownY_ = e.clientY;
+      google.maps.event.trigger(that, 'mousedown', e);
+    }),
+  ];
 };
 
 
@@ -703,6 +771,12 @@ RichMarker.prototype.getOffset_ = function() {
      break;
   }
 
+  var anchorOffset = this.getAnchorOffset();
+  if( anchorOffset ) {
+    offset.width += anchorOffset.x;
+    offset.height += anchorOffset.y;
+  }
+    
   return offset;
 };
 
@@ -729,7 +803,10 @@ RichMarker.prototype.onAdd = function() {
 
     var that = this;
     google.maps.event.addDomListener(this.markerContent_, 'click', function(e) {
-      google.maps.event.trigger(that, 'click', e);
+      if( !that.mousedownX_ || ( Math.abs(that.mousedownX_ - e.clientX) < 4 &&
+                                 Math.abs(that.mousedownY_ - e.clientY) < 4 )) {
+        google.maps.event.trigger(that, 'click', e);
+      }
     });
     google.maps.event.addDomListener(this.markerContent_, 'mouseover', function(e) {
       google.maps.event.trigger(that, 'mouseover', e);
