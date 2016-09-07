@@ -204,8 +204,17 @@ RichMarker.prototype['getZIndex'] = RichMarker.prototype.getZIndex;
  * zIndex changed event.
  */
 RichMarker.prototype.zIndex_changed = function() {
-  if (this.getZIndex() && this.ready_) {
-    this.markerWrapper_.style.zIndex = this.getZIndex();
+  var newZIndex = this.getZIndex();
+  var isNumber = false;
+  // check if number
+  if (typeof newZIndex === 'number') {
+    isNumber = true;
+    if (!newZIndex) {
+      newZIndex = 0; // convert NaN to 0
+    }
+  }
+  if (isNumber && this.ready_) {
+    this.markerWrapper_.style.zIndex = newZIndex;
   }
 };
 RichMarker.prototype['zIndex_changed'] = RichMarker.prototype.zIndex_changed;
