@@ -714,7 +714,19 @@ RichMarker.prototype.getOffset_ = function() {
 RichMarker.prototype.onAdd = function() {
   if (!this.markerWrapper_) {
     this.markerWrapper_ = document.createElement('DIV');
+    this.markerWrapper_.style = this.style || {};
+
+    // Add custom css for marker wrapper
+    if (this.style) {
+      var that = this;
+      var styleProperties = Object.keys(that.style);
+      styleProperties.forEach(function (property) {
+        that.markerWrapper_.style[property] = that.style[property];
+      })
+    }
+
     this.markerWrapper_.style['position'] = 'absolute';
+    console.log(this);
   }
 
   if (this.getZIndex()) {
